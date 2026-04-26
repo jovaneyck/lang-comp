@@ -1,0 +1,2 @@
+tokens;start_time;end_time;number_of_builds_test_runs_needed;description
+32.100;2026-04-26 13:07:41.016;2026-04-26 13:09:59.374;2;Smooth run - added Zombie cell type and 7 tests. First build failed due to incorrect expected values in 2 zombie immutability tests (forgot zombie counts as live for neighbor calculations). Fixed expectations, all green on second run.
