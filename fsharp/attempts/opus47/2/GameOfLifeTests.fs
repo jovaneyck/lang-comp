@@ -7,6 +7,7 @@ open GameOfLife
 
 let O: Cell = Dead
 let X: Cell = Alive
+let Z: Cell = Zombie
 
 let grid (rows: Cell list list) : Grid =
     let height: int = List.length rows
@@ -136,5 +137,99 @@ let ``Bigger matrix`` () =
                [ X; X; O; X; O; O; O; X ]
                [ X; O; O; O; O; O; O; O ]
                [ O; O; O; O; O; O; X; X ] ]
+
+    tickGrid input |> should equal expected
+
+
+[<Fact>]
+let ``Zombie with no live neighbors stays zombie`` () =
+    let input =
+        grid [ [ O; O; O ]
+               [ O; Z; O ]
+               [ O; O; O ] ]
+
+    tickGrid input |> should equal input
+
+[<Fact>]
+let ``Zombie with three live neighbors stays zombie`` () =
+    let input =
+        grid [ [ X; X; O ]
+               [ O; Z; O ]
+               [ X; O; O ] ]
+
+    let expected =
+        grid [ [ X; X; O ]
+               [ O; Z; O ]
+               [ O; O; O ] ]
+
+    tickGrid input |> should equal expected
+
+[<Fact>]
+let ``Zombie surrounded by live cells stays zombie`` () =
+    let input =
+        grid [ [ X; X; X ]
+               [ X; Z; X ]
+               [ X; X; X ] ]
+
+    let evolved = tickGrid input
+    cellAt evolved { Row = 1; Col = 1 } |> should equal (Some Zombie)
+
+[<Fact>]
+let ``Dead cell with three zombie neighbors becomes alive`` () =
+    let input =
+        grid [ [ Z; Z; O ]
+               [ O; O; O ]
+               [ Z; O; O ] ]
+
+    let expected =
+        grid [ [ Z; Z; O ]
+               [ X; X; O ]
+               [ Z; O; O ] ]
+
+    tickGrid input |> should equal expected
+
+[<Fact>]
+let ``Live cell with two zombie neighbors stays alive`` () =
+    let input =
+        grid [ [ Z; O; O ]
+               [ O; X; O ]
+               [ Z; O; O ] ]
+
+    let evolved = tickGrid input
+    cellAt evolved { Row = 1; Col = 1 } |> should equal (Some Alive)
+
+[<Fact>]
+let ``Live cell surrounded by four or more zombies dies`` () =
+    let input =
+        grid [ [ Z; Z; O ]
+               [ Z; X; Z ]
+               [ O; O; O ] ]
+
+    let evolved = tickGrid input
+    cellAt evolved { Row = 1; Col = 1 } |> should equal (Some Dead)
+
+[<Fact>]
+let ``Mixed grid from spec`` () =
+    let input =
+        grid [ [ O; O; X; O; O; O; Z; O; O ]
+               [ O; O; O; X; O; O; O; O; O ]
+               [ O; X; X; X; O; O; O; O; O ]
+               [ O; O; O; O; O; O; O; O; O ]
+               [ Z; O; O; O; O; O; O; O; Z ]
+               [ O; O; O; O; O; O; O; O; O ]
+               [ O; O; O; O; O; X; X; X; O ]
+               [ O; O; O; O; O; X; O; O; O ]
+               [ O; O; Z; O; O; X; O; Z; O ] ]
+
+    let expected =
+        grid [ [ O; O; O; O; O; O; Z; O; O ]
+               [ O; X; O; X; O; O; O; O; O ]
+               [ O; O; X; X; O; O; O; O; O ]
+               [ O; X; X; O; O; O; O; O; O ]
+               [ Z; O; O; O; O; O; O; O; Z ]
+               [ O; O; O; O; O; O; X; X; O ]
+               [ O; O; O; O; O; X; X; O; O ]
+               [ O; O; O; O; X; X; O; X; O ]
+               [ O; O; Z; O; O; O; X; Z; O ] ]
 
     tickGrid input |> should equal expected

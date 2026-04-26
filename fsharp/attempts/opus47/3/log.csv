@@ -1,0 +1,1 @@
+37.800K;2026-04-26 12:20:00.736;2026-04-26 12:21:21.519;3;Two early build failures from mangled string replacements (overlapping context lines clobbered the Cell type and a duplicated `[<Fact>]` block) but logic was correct on the first try and passed all 15 tests once the syntax was repaired.;

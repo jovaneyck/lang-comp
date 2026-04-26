@@ -1,0 +1,1 @@
+39.300;2026-04-26 12:19:49.971;2026-04-26 12:21:43.071;3;Implemented Zombie cell variant straightforwardly; one iteration failed because a hand-traced expected grid in a zombie test was incorrect, fixed and all 15 tests passed.;

@@ -7,6 +7,7 @@ open GameOfLife
 
 let O: Cell = Dead
 let X: Cell = Alive
+let Z: Cell = Zombie
 
 let grid (rows: Cell list list) : Grid =
     let height: int = List.length rows
@@ -112,6 +113,101 @@ let ``Live cells with four or more neighbors die`` () =
         grid [ [ X; O; X ]
                [ O; O; O ]
                [ X; O; X ] ]
+
+    tickGrid input |> should equal expected
+
+[<Fact>]
+let ``Zombie with 0 live neighbors stays zombie`` () =
+    let input =
+        grid [ [ O; O; O ]
+               [ O; Z; O ]
+               [ O; O; O ] ]
+
+    tickGrid input |> should equal input
+
+[<Fact>]
+let ``Zombie with 3 live neighbors stays zombie`` () =
+    let input =
+        grid [ [ X; X; O ]
+               [ X; Z; O ]
+               [ O; O; O ] ]
+
+    let expected =
+        grid [ [ X; X; O ]
+               [ X; Z; O ]
+               [ O; O; O ] ]
+
+    (tickGrid input).Cells
+    |> Map.find { Row = 1; Col = 1 }
+    |> should equal Zombie
+
+[<Fact>]
+let ``Zombie surrounded by live neighbors stays zombie`` () =
+    let input =
+        grid [ [ X; X; X ]
+               [ X; Z; X ]
+               [ X; X; X ] ]
+
+    (tickGrid input).Cells
+    |> Map.find { Row = 1; Col = 1 }
+    |> should equal Zombie
+
+[<Fact>]
+let ``Dead cell with exactly 3 zombie neighbors becomes alive`` () =
+    let input =
+        grid [ [ Z; Z; O ]
+               [ O; O; O ]
+               [ Z; O; O ] ]
+
+    (tickGrid input).Cells
+    |> Map.find { Row = 1; Col = 1 }
+    |> should equal Alive
+
+[<Fact>]
+let ``Live cell with exactly 2 zombie neighbors stays alive`` () =
+    let input =
+        grid [ [ Z; O; O ]
+               [ O; X; O ]
+               [ Z; O; O ] ]
+
+    (tickGrid input).Cells
+    |> Map.find { Row = 1; Col = 1 }
+    |> should equal Alive
+
+[<Fact>]
+let ``Live cell surrounded by zombies dies`` () =
+    let input =
+        grid [ [ Z; Z; Z ]
+               [ Z; X; Z ]
+               [ Z; Z; Z ] ]
+
+    (tickGrid input).Cells
+    |> Map.find { Row = 1; Col = 1 }
+    |> should equal Dead
+
+[<Fact>]
+let ``Mixed grid with zombies`` () =
+    let input =
+        grid [ [ O; O; X; O; O; O; Z; O; O ]
+               [ O; O; O; X; O; O; O; O; O ]
+               [ O; X; X; X; O; O; O; O; O ]
+               [ O; O; O; O; O; O; O; O; O ]
+               [ Z; O; O; O; O; O; O; O; Z ]
+               [ O; O; O; O; O; O; O; O; O ]
+               [ O; O; O; O; O; X; X; X; O ]
+               [ O; O; O; O; O; X; O; O; O ]
+               [ O; O; Z; O; O; X; O; Z; O ] ]
+
+    let expected =
+        grid [ [ O; O; O; O; O; O; Z; O; O ]
+               [ O; X; O; X; O; O; O; O; O ]
+               [ O; O; X; X; O; O; O; O; O ]
+               [ O; X; X; O; O; O; O; O; O ]
+               [ Z; O; O; O; O; O; O; O; Z ]
+               [ O; O; O; O; O; O; X; X; O ]
+               [ O; O; O; O; O; X; X; O; O ]
+               [ O; O; O; O; X; X; O; X; O ]
+               [ O; O; Z; O; O; O; X; Z; O ] ]
 
     tickGrid input |> should equal expected
 
