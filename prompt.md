@@ -1,6 +1,6 @@
 # Your goal
 
-You are implementing a functional change to the Game of Life. 
+You are implementing a functional change to the Game of Life. You are given a path to an attempt directory. Read the readme.md for that attempt.
 You start from an existing implementation with accompanying test cases, all are passing from the start.
 As a first TODO item, get the start_time (Get-Date -Format "yyyy-MM-dd HH:mm:ss.fff")
 Keep track of the number of iterations you need (failing builds or failing test runs) until you get to green with all acceptance criteria met.
