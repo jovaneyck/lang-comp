@@ -1,0 +1,2 @@
+start_time;end_time;number_of_builds_test_runs_needed;description;
+2026-04-26 10:34:28.440;2026-04-26 10:37:47.116;5;Straightforward implementation — added Zombie DU case, immutability rule in evolveCell, and zombie-counts-as-live in countLiveNeighbors; main hiccup was needing to fix test expected values that initially didn't account for zombies affecting neighbor counts;
