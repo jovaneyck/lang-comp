@@ -9,7 +9,7 @@ As second-to-last TODO item, get the end_time (Get-Date -Format "yyyy-MM-dd HH:m
 As last TODO item, write a file in the current attempt folder called log.csv with 
 
 ```csv
-start_time;end_time;number_of_builds_test_runs_needed;<single-sentence description of how the run went, highlighting any surprises or challenges>;
+tokens(fill with hardcoded zero);start_time;end_time;number_of_builds_test_runs_needed;<single-sentence description of how the run went, highlighting any surprises or challenges>;
 ```
 
 ## New feature request
