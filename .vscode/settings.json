@@ -1,0 +1,12 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^python scripts\\\\consolidate\\.py$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^python scripts\\\\visualize\\.py$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

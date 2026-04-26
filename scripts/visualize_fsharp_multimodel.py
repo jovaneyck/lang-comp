@@ -1,9 +1,8 @@
-"""Interactive dashboard comparing a single model's performance across languages.
+"""Interactive dashboard comparing LLM models on F# experiments.
 
 Usage:
-    python scripts/visualize.py
+    python scripts/visualize_fsharp_multimodel.py
 
-Change MODEL below to switch which model to analyze.
 Opens a browser with an interactive Plotly dashboard.
 """
 
@@ -12,9 +11,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from pathlib import Path
-
-# ── Configuration ──
-MODEL = "opus46high"
 
 ROOT = Path(__file__).resolve().parent.parent
 CSV = ROOT / "results.csv"
@@ -30,7 +26,7 @@ def load():
         df["number_of_builds_test_runs_needed"], errors="coerce"
     )
     df["attempt"] = df["attempt"].astype(str)
-    df = df[df["model"] == MODEL]
+    df = df[df["language"] == "fsharp"]
     return df
 
 
@@ -38,9 +34,9 @@ def build_dashboard(df):
     fig = make_subplots(
         rows=2, cols=2,
         subplot_titles=(
-            "Duration (seconds) by Language",
-            "Build/Test Runs Needed by Language",
-            "Tokens by Language",
+            "Duration (seconds) by Model",
+            "Build/Test Runs Needed by Model",
+            "Tokens by Model",
             "Duration vs Build/Test Runs",
         ),
         vertical_spacing=0.12,
@@ -48,27 +44,27 @@ def build_dashboard(df):
     )
 
     colors = px.colors.qualitative.Set2
-    languages = sorted(df["language"].unique())
-    color_map = {lang: colors[i % len(colors)] for i, lang in enumerate(languages)}
+    models = df["model"].unique()
+    color_map = {m: colors[i % len(colors)] for i, m in enumerate(models)}
 
-    for lang in languages:
-        sub = df[df["language"] == lang]
-        c = color_map[lang]
+    for model in models:
+        sub = df[df["model"] == model]
+        c = color_map[model]
         hover = sub.apply(
-            lambda r: f"Lang: {r['language']}<br>Attempt: {r['attempt']}<br>Duration: {r['duration_s']:.1f}s<br>Builds: {r['number_of_builds_test_runs_needed']}",
+            lambda r: f"Model: {r['model']}<br>Lang: {r['language']}<br>Attempt: {r['attempt']}<br>Duration: {r['duration_s']:.1f}s<br>Builds: {r['number_of_builds_test_runs_needed']}",
             axis=1,
         )
 
-        fig.add_trace(go.Box(y=sub["duration_s"], name=lang, marker_color=c, legendgroup=lang, showlegend=True), row=1, col=1)
-        fig.add_trace(go.Box(y=sub["number_of_builds_test_runs_needed"], name=lang, marker_color=c, legendgroup=lang, showlegend=False), row=1, col=2)
-        fig.add_trace(go.Box(y=sub["tokens"], name=lang, marker_color=c, legendgroup=lang, showlegend=False), row=2, col=1)
+        fig.add_trace(go.Box(y=sub["duration_s"], name=model, marker_color=c, legendgroup=model, showlegend=True), row=1, col=1)
+        fig.add_trace(go.Box(y=sub["number_of_builds_test_runs_needed"], name=model, marker_color=c, legendgroup=model, showlegend=False), row=1, col=2)
+        fig.add_trace(go.Box(y=sub["tokens"], name=model, marker_color=c, legendgroup=model, showlegend=False), row=2, col=1)
         fig.add_trace(go.Scatter(
             x=sub["number_of_builds_test_runs_needed"],
             y=sub["duration_s"],
             mode="markers",
             marker=dict(color=c, size=10),
-            name=lang,
-            legendgroup=lang,
+            name=model,
+            legendgroup=model,
             showlegend=False,
             text=hover,
             hoverinfo="text",
@@ -81,7 +77,7 @@ def build_dashboard(df):
     fig.update_xaxes(title_text="Build/Test Runs", row=2, col=2)
 
     fig.update_layout(
-        title_text=f"{MODEL} — Cross-Language Comparison",
+        title_text="F# Experiment Results — Multi-Model Comparison",
         height=800,
         template="plotly_white",
     )
@@ -90,8 +86,8 @@ def build_dashboard(df):
 
 def main():
     df = load()
-    print(f"Loaded {len(df)} rows for {MODEL}: {df['language'].nunique()} languages")
-    print(df.groupby("language")[["duration_s", "number_of_builds_test_runs_needed"]].mean().round(1).to_string())
+    print(f"Loaded {len(df)} F# rows: {df['model'].nunique()} models")
+    print(df.groupby(["model", "language"])[["duration_s", "number_of_builds_test_runs_needed"]].mean().round(1).to_string())
     print()
     fig = build_dashboard(df)
     fig.show()
