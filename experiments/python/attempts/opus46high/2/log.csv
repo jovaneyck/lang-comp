@@ -1,0 +1,2 @@
+tokens;start_time;end_time;number_of_builds_test_runs_needed;description
+35.900;2026-04-26 13:25:52.515;2026-04-26 13:28:11.606;2;Smooth run - initial test expectations for zombie cells had errors (forgot zombies persist in output and miscounted some neighbor effects), fixed in second iteration and all 15 tests passed;

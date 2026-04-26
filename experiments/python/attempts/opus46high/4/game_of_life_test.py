@@ -116,3 +116,106 @@ class GameOfLifeTest(unittest.TestCase):
             [0, 0, 0, 0, 0, 0, 1, 1],
         ]
         self.assertEqual(tick(matrix), expected)
+
+    def test_zombie_with_zero_live_neighbors_stays_zombie(self):
+        matrix = [
+            [0, 0, 0],
+            [0, "Z", 0],
+            [0, 0, 0],
+        ]
+        expected = [
+            [0, 0, 0],
+            [0, "Z", 0],
+            [0, 0, 0],
+        ]
+        self.assertEqual(tick(matrix), expected)
+
+    def test_zombie_with_three_live_neighbors_stays_zombie(self):
+        matrix = [
+            [0, 1, 0],
+            [1, "Z", 0],
+            [0, 1, 0],
+        ]
+        expected = [
+            [1, 1, 0],
+            [1, "Z", 1],
+            [1, 1, 0],
+        ]
+        self.assertEqual(tick(matrix), expected)
+
+    def test_zombie_with_four_plus_live_neighbors_stays_zombie(self):
+        matrix = [
+            [1, 1, 0],
+            [1, "Z", 1],
+            [0, 1, 0],
+        ]
+        expected = [
+            [1, 0, 1],
+            [0, "Z", 1],
+            [1, 1, 1],
+        ]
+        self.assertEqual(tick(matrix), expected)
+
+    def test_dead_cell_with_three_zombie_neighbors_becomes_alive(self):
+        matrix = [
+            ["Z", "Z", 0],
+            [0, 0, 0],
+            ["Z", 0, 0],
+        ]
+        expected = [
+            ["Z", "Z", 0],
+            [1, 1, 0],
+            ["Z", 0, 0],
+        ]
+        self.assertEqual(tick(matrix), expected)
+
+    def test_live_cell_with_two_zombie_neighbors_stays_alive(self):
+        matrix = [
+            ["Z", 0, 0],
+            [0, 1, 0],
+            [0, 0, "Z"],
+        ]
+        expected = [
+            ["Z", 0, 0],
+            [0, 1, 0],
+            [0, 0, "Z"],
+        ]
+        self.assertEqual(tick(matrix), expected)
+
+    def test_live_cell_with_four_plus_zombie_neighbors_dies(self):
+        matrix = [
+            ["Z", "Z", 0],
+            ["Z", 1, "Z"],
+            [0, 0, 0],
+        ]
+        expected = [
+            ["Z", "Z", 1],
+            ["Z", 0, "Z"],
+            [0, 1, 0],
+        ]
+        self.assertEqual(tick(matrix), expected)
+
+    def test_mixed_grid(self):
+        matrix = [
+            [0, 0, 1, 0, 0, 0, "Z", 0, 0],
+            [0, 0, 0, 1, 0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ["Z", 0, 0, 0, 0, 0, 0, 0, "Z"],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0, 0],
+            [0, 0, "Z", 0, 0, 1, 0, "Z", 0],
+        ]
+        expected = [
+            [0, 0, 0, 0, 0, 0, "Z", 0, 0],
+            [0, 1, 0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 1, 1, 0, 0, 0, 0, 0],
+            [0, 1, 1, 0, 0, 0, 0, 0, 0],
+            ["Z", 0, 0, 0, 0, 0, 0, 0, "Z"],
+            [0, 0, 0, 0, 0, 0, 1, 1, 0],
+            [0, 0, 0, 0, 0, 1, 1, 0, 0],
+            [0, 0, 0, 0, 1, 1, 0, 1, 0],
+            [0, 0, "Z", 0, 0, 0, 1, "Z", 0],
+        ]
+        self.assertEqual(tick(matrix), expected)

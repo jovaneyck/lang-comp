@@ -1,4 +1,7 @@
 def tick(matrix):
+    def is_alive(cell):
+        return cell == 1 or cell == "Z"
+
     def count_neighbors(r, c):
         count = 0
         for dr, dc in [
@@ -8,7 +11,8 @@ def tick(matrix):
         ]:
             nr, nc = r + dr, c + dc
             if 0 <= nr < rows and 0 <= nc < cols:
-                count += matrix[nr][nc]
+                if is_alive(matrix[nr][nc]):
+                    count += 1
         return count
 
     if not matrix:
@@ -21,8 +25,11 @@ def tick(matrix):
     for r in range(rows):
         new_row = []
         for c in range(cols):
-            neighbors = count_neighbors(r, c)
             current = matrix[r][c]
+            if current == "Z":
+                new_row.append("Z")
+                continue
+            neighbors = count_neighbors(r, c)
             state = 0
             if current == 1 and (neighbors == 2 or neighbors == 3):
                 state = 1

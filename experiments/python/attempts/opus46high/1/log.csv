@@ -1,0 +1,2 @@
+tokens;start_time;end_time;number_of_builds_test_runs_needed;description
+38.200;2026-04-26 13:25:39.191;2026-04-26 13:28:19.492;3;Smooth run - implementation was correct on first try but test expectations needed fixing because zombie cells must persist as "Z" in output rather than becoming 0;
