@@ -1,0 +1,2 @@
+tokens;start_time;end_time;number_of_builds_test_runs_needed;description
+34.800;2026-04-26 14:41:14.027;2026-04-26 14:43:11.783;2;Smooth run - added to_numeric helper to convert :z to 1 for neighbor counting, added zombie rule clause; first run failed due to incorrect test expectations which were fixed on second run

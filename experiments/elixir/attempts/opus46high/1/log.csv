@@ -1,0 +1,2 @@
+tokens;start_time;end_time;number_of_builds_test_runs_needed;description
+34.900;2026-04-26 14:40:52.650;2026-04-26 14:42:56.428;3;Smooth run - converted :z atoms to 1 for neighbor counting and added zombie rule clause; only hiccup was incorrect test expectations needing recalculation;

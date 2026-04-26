@@ -1,16 +1,30 @@
 defmodule GameOfLife do
   @doc """
-  Apply the rules of Conway's Game of Life to a grid of cells
+  Apply the rules of Conway's Game of Life to a grid of cells.
+  Cells can be 0 (dead), 1 (alive), or :z (zombie).
+  Zombie cells count as alive for neighbors but never change state.
   """
 
-  @spec tick(matrix :: list(list(0 | 1))) :: list(list(0 | 1))
+  @type cell :: 0 | 1 | :z
+
+  @spec tick(matrix :: list(list(cell))) :: list(list(cell))
   def tick([]), do: []
 
   def tick(matrix) do
-    neighbors = count_neighbors(matrix)
+    numeric = to_numeric(matrix)
+    neighbors = count_neighbors(numeric)
 
     Enum.zip_with(matrix, neighbors, fn row_matrix, row_neighbor ->
       Enum.zip_with(row_matrix, row_neighbor, &rule/2)
+    end)
+  end
+
+  defp to_numeric(matrix) do
+    Enum.map(matrix, fn row ->
+      Enum.map(row, fn
+        :z -> 1
+        cell -> cell
+      end)
     end)
   end
 
@@ -37,6 +51,7 @@ defmodule GameOfLife do
   defp shift_up([first | rest]), do: rest ++ [Enum.map(first, fn _ -> 0 end)]
   defp shift_down([first | _] = matrix), do: [Enum.map(first, fn _ -> 0 end) | matrix]
 
+  defp rule(:z, _live_neighbors), do: :z
   defp rule(1, 2), do: 1
   defp rule(1, 3), do: 1
   defp rule(0, 3), do: 1

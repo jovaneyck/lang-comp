@@ -3,7 +3,7 @@ defmodule GameOfLife do
   Apply the rules of Conway's Game of Life to a grid of cells
   """
 
-  @spec tick(matrix :: list(list(0 | 1))) :: list(list(0 | 1))
+  @spec tick(matrix :: list(list(0 | 1 | :z))) :: list(list(0 | 1 | :z))
   def tick([]), do: []
 
   def tick(matrix) do
@@ -15,14 +15,21 @@ defmodule GameOfLife do
   end
 
   defp count_neighbors(matrix) do
-    shift_left = shift_left(matrix)
-    shift_right = shift_right(matrix)
+    numeric = Enum.map(matrix, fn row ->
+      Enum.map(row, fn
+        :z -> 1
+        cell -> cell
+      end)
+    end)
+
+    shift_left = shift_left(numeric)
+    shift_right = shift_right(numeric)
 
     shifts = [
       shift_left,
       shift_right,
-      shift_up(matrix),
-      shift_down(matrix),
+      shift_up(numeric),
+      shift_down(numeric),
       shift_left |> shift_up(),
       shift_left |> shift_down(),
       shift_right |> shift_up(),
@@ -37,6 +44,7 @@ defmodule GameOfLife do
   defp shift_up([first | rest]), do: rest ++ [Enum.map(first, fn _ -> 0 end)]
   defp shift_down([first | _] = matrix), do: [Enum.map(first, fn _ -> 0 end) | matrix]
 
+  defp rule(:z, _live_neighbors), do: :z
   defp rule(1, 2), do: 1
   defp rule(1, 3), do: 1
   defp rule(0, 3), do: 1

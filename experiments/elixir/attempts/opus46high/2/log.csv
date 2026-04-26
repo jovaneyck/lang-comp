@@ -1,0 +1,2 @@
+tokens;start_time;end_time;number_of_builds_test_runs_needed;description
+37.400;2026-04-26 14:41:00.703;2026-04-26 14:43:33.164;3;Smooth run - added to_numeric helper to convert zombie atoms to 1 for neighbor counting and a zombie-first rule clause for immutability; needed 2 extra runs to fix incorrect test expectations for side effects on surrounding cells;
