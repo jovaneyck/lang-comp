@@ -1,0 +1,19 @@
+{
+  "name": "template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "game-of-life.ts",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@jest/globals": "^30.3.0",
+    "jest": "^30.3.0",
+    "ts-jest": "^29.3.4",
+    "typescript": "^5.8.3"
+  }
+}
