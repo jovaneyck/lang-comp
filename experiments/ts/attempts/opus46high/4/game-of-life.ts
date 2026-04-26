@@ -1,6 +1,7 @@
 export enum Cell {
     Dead,
     Alive,
+    Zombie,
 }
 
 export type Matrix = Cell[][];
@@ -23,20 +24,19 @@ export class GameOfLife {
 
         for (let row: number = 0; row < rows; row++) {
             for (let col: number = 0; col < cols; col++) {
-                const liveNeighbors: number = this.#countLiveNeighbors(row, col, rows, cols);
-
-                let cell: Cell = this.#matrix[row][col];
-                if (cell === Cell.Alive) {
-                    if (liveNeighbors < 2 || liveNeighbors > 3) {
-                        cell = Cell.Dead;
-                    }
-                } else {
-                    if (liveNeighbors === 3) {
-                        cell = Cell.Alive;
-                    }
+                const cell: Cell = this.#matrix[row][col];
+                if (cell === Cell.Zombie) {
+                    newMatrix[row][col] = Cell.Zombie;
+                    continue;
                 }
 
-                newMatrix[row][col] = cell;
+                const liveNeighbors: number = this.#countLiveNeighbors(row, col, rows, cols);
+
+                if (cell === Cell.Alive) {
+                    newMatrix[row][col] = (liveNeighbors < 2 || liveNeighbors > 3) ? Cell.Dead : Cell.Alive;
+                } else {
+                    newMatrix[row][col] = liveNeighbors === 3 ? Cell.Alive : Cell.Dead;
+                }
             }
         }
 
@@ -51,7 +51,7 @@ export class GameOfLife {
                     continue;
                 }
                 if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
-                    if (this.#matrix[newRow][newCol] === Cell.Alive) {
+                    if (this.#matrix[newRow][newCol] === Cell.Alive || this.#matrix[newRow][newCol] === Cell.Zombie) {
                         count++;
                     }
                 }

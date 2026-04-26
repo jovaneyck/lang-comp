@@ -3,6 +3,7 @@ import { Cell, GameOfLife, Matrix } from './game-of-life';
 
 const O: Cell = Cell.Dead;
 const X: Cell = Cell.Alive;
+const Z: Cell = Cell.Zombie;
 
 describe('Game of Life', () => {
     test('empty matrix', () => {
@@ -83,6 +84,76 @@ describe('Game of Life', () => {
             [X, X, O, X, O, O, O, X],
             [X, O, O, O, O, O, O, O],
             [O, O, O, O, O, O, X, X],
+        ];
+        expect(game.state()).toEqual(expected);
+    });
+
+    test('zombie with 0 live neighbors stays zombie', () => {
+        const matrix: Matrix = [[O, O, O], [O, Z, O], [O, O, O]];
+        const game = new GameOfLife(matrix);
+        game.tick();
+        expect(game.state()[1][1]).toEqual(Z);
+    });
+
+    test('zombie with 3 live neighbors stays zombie', () => {
+        const matrix: Matrix = [[X, X, X], [O, Z, O], [O, O, O]];
+        const game = new GameOfLife(matrix);
+        game.tick();
+        expect(game.state()[1][1]).toEqual(Z);
+    });
+
+    test('zombie with 4+ live neighbors stays zombie', () => {
+        const matrix: Matrix = [[X, X, X], [X, Z, O], [O, O, O]];
+        const game = new GameOfLife(matrix);
+        game.tick();
+        expect(game.state()[1][1]).toEqual(Z);
+    });
+
+    test('dead cell with exactly 3 zombie neighbors becomes alive', () => {
+        const matrix: Matrix = [[Z, Z, Z], [O, O, O], [O, O, O]];
+        const game = new GameOfLife(matrix);
+        game.tick();
+        expect(game.state()[1][1]).toEqual(X);
+    });
+
+    test('live cell with exactly 2 zombie neighbors stays alive', () => {
+        const matrix: Matrix = [[Z, O, Z], [O, X, O], [O, O, O]];
+        const game = new GameOfLife(matrix);
+        game.tick();
+        expect(game.state()[1][1]).toEqual(X);
+    });
+
+    test('live cell surrounded by zombies (4+) dies', () => {
+        const matrix: Matrix = [[Z, Z, O], [Z, X, Z], [O, O, O]];
+        const game = new GameOfLife(matrix);
+        game.tick();
+        expect(game.state()[1][1]).toEqual(O);
+    });
+
+    test('mixed grid', () => {
+        const matrix: Matrix = [
+            [O, O, X, O, O, O, Z, O, O],
+            [O, O, O, X, O, O, O, O, O],
+            [O, X, X, X, O, O, O, O, O],
+            [O, O, O, O, O, O, O, O, O],
+            [Z, O, O, O, O, O, O, O, Z],
+            [O, O, O, O, O, O, O, O, O],
+            [O, O, O, O, O, X, X, X, O],
+            [O, O, O, O, O, X, O, O, O],
+            [O, O, Z, O, O, X, O, Z, O],
+        ];
+        const game = new GameOfLife(matrix);
+        game.tick();
+        const expected: Matrix = [
+            [O, O, O, O, O, O, Z, O, O],
+            [O, X, O, X, O, O, O, O, O],
+            [O, O, X, X, O, O, O, O, O],
+            [O, X, X, O, O, O, O, O, O],
+            [Z, O, O, O, O, O, O, O, Z],
+            [O, O, O, O, O, O, X, X, O],
+            [O, O, O, O, O, X, X, O, O],
+            [O, O, O, O, X, X, O, X, O],
+            [O, O, Z, O, O, O, X, Z, O],
         ];
         expect(game.state()).toEqual(expected);
     });

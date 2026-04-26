@@ -1,0 +1,2 @@
+tokens;start_time;end_time;number_of_builds_test_runs_needed;description
+27.400;2026-04-26 13:52:11.313;2026-04-26 13:53:35.826;2;Clean run with no surprises - added Zombie enum value, updated tick to skip zombies and countLiveNeighbors to count them as live, all 15 tests green on first try after changes;

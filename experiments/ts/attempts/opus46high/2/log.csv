@@ -1,0 +1,2 @@
+tokens;start_time;end_time;number_of_builds_test_runs_needed;description
+25.700;2026-04-26 13:51:49.117;2026-04-26 13:53:00.382;1;Clean first-pass implementation — added Zombie enum value, skip zombies in tick, count zombies as live neighbors, all 15 tests green on first run;
