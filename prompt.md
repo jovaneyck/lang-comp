@@ -14,6 +14,7 @@ model_name;start_time;end_time;number_of_builds_test_runs_needed;
 
 Introduce a new kind of cell state, called "zombie". A zombie cell behaves as if it is both dead and alive at the same time.
 It counts as a live cell for the purposes of determining the next state of its neighbors, but it does not change its own state in response to its neighbors. In other words, a zombie cell will always remain a zombie cell, regardless of how many live neighbors it has.
+Zombie cells never die, and they never come back to life.
 
 ## Acceptance criteria
 
