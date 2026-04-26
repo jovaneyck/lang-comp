@@ -13,4 +13,4 @@ Run #prompt.md experiment in python\attempts\opus46high\1
 
 Run #prompt.md experiment in ts\attempts\opus46high\1
 
-Run #prompt.md experiment in fsharp2\attempts\opus46high\1
+Run #prompt.md experiment in elixir\attempts\opus46high\1
