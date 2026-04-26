@@ -1,0 +1,1 @@
+When running tests, always look for the instructions in the README.md file of the template you are using.
