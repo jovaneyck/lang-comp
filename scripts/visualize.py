@@ -94,6 +94,9 @@ def main():
     print(df.groupby("language")[["duration_s", "number_of_builds_test_runs_needed"]].mean().round(1).to_string())
     print()
     fig = build_dashboard(df)
+    html_path = ROOT / "results-dashboard.html"
+    fig.write_html(html_path, include_plotlyjs=True)
+    print(f"Exported to {html_path}")
     fig.show()
 
 
