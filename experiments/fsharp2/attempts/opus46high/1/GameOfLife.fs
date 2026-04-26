@@ -3,6 +3,7 @@ module GameOfLife
 type Cell =
     | Alive
     | Dead
+    | Zombie
 
 type Position = { Row: int; Col: int }
 
@@ -27,11 +28,12 @@ let countLiveNeighbors (grid: Grid) (position: Position) : int =
             grid
             { Row = position.Row + dr
               Col = position.Col + dc })
-    |> List.filter (fun c -> c = Some Alive)
+    |> List.filter (fun c -> c = Some Alive || c = Some Zombie)
     |> List.length
 
 let evolveCell (cell: Cell) (liveNeighbors: int) : Cell =
     match cell, liveNeighbors with
+    | Zombie, _ -> Zombie
     | Alive, 2
     | Alive, 3 -> Alive
     | Dead, 3 -> Alive
