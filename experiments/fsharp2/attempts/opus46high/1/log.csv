@@ -1,2 +1,0 @@
-tokens;start_time;end_time;number_of_builds_test_runs_needed;description
-38.800;2026-04-26 14:01:05.713;2026-04-26 14:04:27.534;3;Smooth implementation - added Zombie DU case and 3 logic changes, but had to fix 5 test expectations in a second run due to miscalculated neighbor counts for zombie cells;

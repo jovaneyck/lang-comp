@@ -1,2 +1,2 @@
 tokens;start_time;end_time;number_of_builds_test_runs_needed;description
-36.100;2026-04-26 13:07:49.337;2026-04-26 13:10:35.783;2;First run failed 4 zombie tests due to incorrect expected values (forgot zombies stay zombie in output grid and miscalculated neighbor effects), fixed expectations and passed on second run;
+37.300;2026-04-26 14:01:38.175;2026-04-26 14:04:36.436;3;Implementation was straightforward but 4 test expectations had incorrect expected grids due to miscounting zombie neighbor effects - needed 2 extra test runs to fix expected outputs

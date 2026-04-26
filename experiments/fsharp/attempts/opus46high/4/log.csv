@@ -1,2 +1,2 @@
-tokens;start_time;end_time;number_of_builds_test_runs_needed;description
-32.100;2026-04-26 13:07:41.016;2026-04-26 13:09:59.374;2;Smooth run - added Zombie cell type and 7 tests. First build failed due to incorrect expected values in 2 zombie immutability tests (forgot zombie counts as live for neighbor calculations). Fixed expectations, all green on second run.
+tokens(fill with hardcoded zero);start_time;end_time;number_of_builds_test_runs_needed;<single-sentence description of how the run went, highlighting any surprises or challenges>;
+31.800;2026-04-26 14:01:29.017;2026-04-26 14:03:45.080;2;Smooth implementation — added Zombie DU case, counted zombies as live neighbors, and made zombies immutable in evolveCell; first test run failed because test expectations incorrectly replaced zombie cells with dead cells in expected grids;

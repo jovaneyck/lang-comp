@@ -157,14 +157,14 @@ let ``Zombie with 0 live neighbors stays zombie`` () =
 [<Fact>]
 let ``Zombie with 3 live neighbors stays zombie`` () =
     let input =
-        grid [ [ O; X; O ]
-               [ X; Z; X ]
-               [ O; O; O ] ]
+        grid [ [ X; X; O ]
+               [ O; Z; O ]
+               [ X; O; O ] ]
 
     let expected =
-        grid [ [ X; X; X ]
-               [ X; Z; X ]
-               [ O; X; O ] ]
+        grid [ [ X; X; O ]
+               [ O; Z; O ]
+               [ O; O; O ] ]
 
     tickGrid input |> should equal expected
 
@@ -211,16 +211,16 @@ let ``Live cell with exactly 2 zombie neighbors stays alive`` () =
     tickGrid input |> should equal expected
 
 [<Fact>]
-let ``Live cell surrounded by zombies (4+) dies`` () =
+let ``Live cell surrounded by zombies dies from overcrowding`` () =
     let input =
-        grid [ [ Z; Z; O ]
+        grid [ [ Z; Z; Z ]
                [ Z; X; Z ]
-               [ O; Z; O ] ]
+               [ O; O; O ] ]
 
     let expected =
-        grid [ [ Z; Z; X ]
+        grid [ [ Z; Z; Z ]
                [ Z; O; Z ]
-               [ X; Z; X ] ]
+               [ O; X; O ] ]
 
     tickGrid input |> should equal expected
 
