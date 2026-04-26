@@ -3,7 +3,7 @@
 Usage:
     python scripts/consolidate.py
 
-Scans {lang}/attempts/{model}/{n}/log.csv across all languages,
+Scans experiments/{lang}/attempts/{model}/{n}/log.csv across all languages,
 prefixes each row with model, language, and attempt number,
 and writes results.csv to the repository root.
 """
@@ -12,16 +12,17 @@ import csv
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+EXPERIMENTS = ROOT / "experiments"
 OUTPUT = ROOT / "results.csv"
 
 
 def find_log_files():
-    return sorted(ROOT.rglob("attempts/*/*/log.csv"))
+    return sorted(EXPERIMENTS.rglob("attempts/*/*/log.csv"))
 
 
 def parse_path(log_path):
     """Extract model, language, and attempt number from path like {lang}/attempts/{model}/{n}/log.csv"""
-    parts = log_path.relative_to(ROOT).parts
+    parts = log_path.relative_to(EXPERIMENTS).parts
     attempts_idx = parts.index("attempts")
     return {
         "language": parts[attempts_idx - 1],
