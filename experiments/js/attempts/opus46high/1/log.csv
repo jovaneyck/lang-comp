@@ -1,0 +1,2 @@
+tokens;start_time;end_time;number_of_builds_test_runs_needed;description
+29.400;2026-04-26 12:56:19.271;2026-04-26 12:57:19.180;2;Clean run — added zombie cell state as 'Z' string, updated neighbor counting to treat Z as live, skipped state transitions for zombies. All tests passed on first implementation attempt.

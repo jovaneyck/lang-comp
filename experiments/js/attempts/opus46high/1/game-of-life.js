@@ -16,6 +16,13 @@ export class GameOfLife {
 
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
+                var cell = this.#matrix[row][col];
+
+                if (cell === 'Z') {
+                    newMatrix[row][col] = 'Z';
+                    continue;
+                }
+
                 let liveNeighbors = 0;
                 for (let newRow = row - 1; newRow <= row + 1; newRow++) {
                     for (let newCol = col - 1; newCol <= col + 1; newCol++) {
@@ -23,12 +30,14 @@ export class GameOfLife {
                             continue;
                         }
                         if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
-                            liveNeighbors += this.#matrix[newRow][newCol];
+                            const neighbor = this.#matrix[newRow][newCol];
+                            if (neighbor === 1 || neighbor === 'Z') {
+                                liveNeighbors++;
+                            }
                         }
                     }
                 }
 
-                var cell = this.#matrix[row][col];
                 if (cell === 1) {
                     if (liveNeighbors < 2 || liveNeighbors > 3) {
                         cell = 0;

@@ -113,6 +113,107 @@ describe('Game of Life', () => {
         expect(game.state()).toEqual(expected);
     });
 
+    // Zombie immutability: zombie with 0 live neighbors stays zombie
+    test('zombie with zero live neighbors stays zombie', () => {
+        const matrix = [
+            [0, 0, 0],
+            [0, 'Z', 0],
+            [0, 0, 0],
+        ];
+        const game = new GameOfLife(matrix);
+        game.tick();
+        expect(game.state()[1][1]).toEqual('Z');
+    });
+
+    // Zombie immutability: zombie with 3 live neighbors stays zombie
+    test('zombie with three live neighbors stays zombie', () => {
+        const matrix = [
+            [1, 1, 0],
+            [0, 'Z', 0],
+            [1, 0, 0],
+        ];
+        const game = new GameOfLife(matrix);
+        game.tick();
+        expect(game.state()[1][1]).toEqual('Z');
+    });
+
+    // Zombie immutability: zombie with 4+ live neighbors stays zombie
+    test('zombie with four or more live neighbors stays zombie', () => {
+        const matrix = [
+            [1, 1, 1],
+            [1, 'Z', 0],
+            [0, 0, 0],
+        ];
+        const game = new GameOfLife(matrix);
+        game.tick();
+        expect(game.state()[1][1]).toEqual('Z');
+    });
+
+    // Zombie counts as live for neighbor birth rule
+    test('dead cell with exactly three zombie neighbors becomes alive', () => {
+        const matrix = [
+            ['Z', 'Z', 0],
+            [0, 0, 0],
+            ['Z', 0, 0],
+        ];
+        const game = new GameOfLife(matrix);
+        game.tick();
+        expect(game.state()[1][1]).toEqual(1);
+    });
+
+    // Zombie counts as live for neighbor survival
+    test('live cell with exactly two zombie neighbors stays alive', () => {
+        const matrix = [
+            ['Z', 0, 0],
+            [0, 1, 0],
+            [0, 0, 'Z'],
+        ];
+        const game = new GameOfLife(matrix);
+        game.tick();
+        expect(game.state()[1][1]).toEqual(1);
+    });
+
+    // Zombie counts as live for overcrowding
+    test('live cell surrounded by zombies dies', () => {
+        const matrix = [
+            ['Z', 'Z', 'Z'],
+            ['Z', 1, 'Z'],
+            [0, 0, 0],
+        ];
+        const game = new GameOfLife(matrix);
+        game.tick();
+        expect(game.state()[1][1]).toEqual(0);
+    });
+
+    // Mixed grid test
+    test('mixed grid with zombies', () => {
+        const matrix = [
+            [0, 0, 1, 0, 0, 0, 'Z', 0, 0],
+            [0, 0, 0, 1, 0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ['Z', 0, 0, 0, 0, 0, 0, 0, 'Z'],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 'Z', 0, 0, 1, 0, 'Z', 0],
+        ];
+        const game = new GameOfLife(matrix);
+        game.tick();
+        const expected = [
+            [0, 0, 0, 0, 0, 0, 'Z', 0, 0],
+            [0, 1, 0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 1, 1, 0, 0, 0, 0, 0],
+            [0, 1, 1, 0, 0, 0, 0, 0, 0],
+            ['Z', 0, 0, 0, 0, 0, 0, 0, 'Z'],
+            [0, 0, 0, 0, 0, 0, 1, 1, 0],
+            [0, 0, 0, 0, 0, 1, 1, 0, 0],
+            [0, 0, 0, 0, 1, 1, 0, 1, 0],
+            [0, 0, 'Z', 0, 0, 0, 1, 'Z', 0],
+        ];
+        expect(game.state()).toEqual(expected);
+    });
+
     // Bigger matrix
     test('bigger matrix', () => {
         const matrix = [
