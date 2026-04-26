@@ -1,4 +1,8 @@
-export type Cell = 0 | 1;
+export enum Cell {
+    Dead,
+    Alive,
+}
+
 export type Matrix = Cell[][];
 
 export class GameOfLife {
@@ -22,13 +26,13 @@ export class GameOfLife {
                 const liveNeighbors: number = this.#countLiveNeighbors(row, col, rows, cols);
 
                 let cell: Cell = this.#matrix[row][col];
-                if (cell === 1) {
+                if (cell === Cell.Alive) {
                     if (liveNeighbors < 2 || liveNeighbors > 3) {
-                        cell = 0;
+                        cell = Cell.Dead;
                     }
                 } else {
                     if (liveNeighbors === 3) {
-                        cell = 1;
+                        cell = Cell.Alive;
                     }
                 }
 
@@ -47,7 +51,9 @@ export class GameOfLife {
                     continue;
                 }
                 if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
-                    count += this.#matrix[newRow][newCol];
+                    if (this.#matrix[newRow][newCol] === Cell.Alive) {
+                        count++;
+                    }
                 }
             }
         }
