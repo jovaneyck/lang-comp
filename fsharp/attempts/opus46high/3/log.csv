@@ -1,2 +1,2 @@
-start_time;end_time;number_of_builds_test_runs_needed;description;
-2026-04-26 10:35:17.424;2026-04-26 10:37:47.316;2;Implementation was straightforward (add Zombie DU case, count as live in neighbors, short-circuit in evolveCell), but first run failed because 4 test expected grids incorrectly ignored zombie cells' effect on their neighbors;
+tokens;start_time;end_time;number_of_builds_test_runs_needed;description;
+11.500;2026-04-26 10:35:17.424;2026-04-26 10:37:47.316;2;Implementation was straightforward (add Zombie DU case, count as live in neighbors, short-circuit in evolveCell), but first run failed because 4 test expected grids incorrectly ignored zombie cells' effect on their neighbors;
