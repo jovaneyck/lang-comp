@@ -149,4 +149,123 @@ mod tests {
         ]);
         assert_eq!(tick_grid(&input), expected);
     }
+
+    const Z: Cell = Cell::Zombie;
+
+    #[test]
+    fn zombie_with_zero_live_neighbors_stays_zombie() {
+        let input = grid(&[
+            &[O, O, O],
+            &[O, Z, O],
+            &[O, O, O],
+        ]);
+        let expected = grid(&[
+            &[O, O, O],
+            &[O, Z, O],
+            &[O, O, O],
+        ]);
+        assert_eq!(tick_grid(&input), expected);
+    }
+
+    #[test]
+    fn zombie_with_three_live_neighbors_stays_zombie() {
+        let input = grid(&[
+            &[X, X, O],
+            &[O, Z, O],
+            &[X, O, O],
+        ]);
+        let expected = grid(&[
+            &[X, X, O],
+            &[O, Z, O],
+            &[O, O, O],
+        ]);
+        assert_eq!(tick_grid(&input), expected);
+    }
+
+    #[test]
+    fn zombie_with_four_plus_live_neighbors_stays_zombie() {
+        let input = grid(&[
+            &[X, X, X],
+            &[X, Z, O],
+            &[O, O, O],
+        ]);
+        let expected = grid(&[
+            &[X, O, X],
+            &[X, Z, X],
+            &[O, O, O],
+        ]);
+        assert_eq!(tick_grid(&input), expected);
+    }
+
+    #[test]
+    fn dead_cell_with_three_zombie_neighbors_becomes_alive() {
+        let input = grid(&[
+            &[Z, Z, O],
+            &[O, O, O],
+            &[Z, O, O],
+        ]);
+        let expected = grid(&[
+            &[Z, Z, O],
+            &[X, X, O],
+            &[Z, O, O],
+        ]);
+        assert_eq!(tick_grid(&input), expected);
+    }
+
+    #[test]
+    fn live_cell_with_two_zombie_neighbors_stays_alive() {
+        let input = grid(&[
+            &[Z, O, O],
+            &[O, X, O],
+            &[O, O, Z],
+        ]);
+        let expected = grid(&[
+            &[Z, O, O],
+            &[O, X, O],
+            &[O, O, Z],
+        ]);
+        assert_eq!(tick_grid(&input), expected);
+    }
+
+    #[test]
+    fn live_cell_with_four_plus_zombie_neighbors_dies() {
+        let input = grid(&[
+            &[Z, Z, O],
+            &[Z, X, O],
+            &[O, Z, O],
+        ]);
+        let expected = grid(&[
+            &[Z, Z, O],
+            &[Z, O, X],
+            &[X, Z, O],
+        ]);
+        assert_eq!(tick_grid(&input), expected);
+    }
+
+    #[test]
+    fn mixed_grid_scenario() {
+        let input = grid(&[
+            &[O, O, X, O, O, O, Z, O, O],
+            &[O, O, O, X, O, O, O, O, O],
+            &[O, X, X, X, O, O, O, O, O],
+            &[O, O, O, O, O, O, O, O, O],
+            &[Z, O, O, O, O, O, O, O, Z],
+            &[O, O, O, O, O, O, O, O, O],
+            &[O, O, O, O, O, X, X, X, O],
+            &[O, O, O, O, O, X, O, O, O],
+            &[O, O, Z, O, O, X, O, Z, O],
+        ]);
+        let expected = grid(&[
+            &[O, O, O, O, O, O, Z, O, O],
+            &[O, X, O, X, O, O, O, O, O],
+            &[O, O, X, X, O, O, O, O, O],
+            &[O, X, X, O, O, O, O, O, O],
+            &[Z, O, O, O, O, O, O, O, Z],
+            &[O, O, O, O, O, O, X, X, O],
+            &[O, O, O, O, O, X, X, O, O],
+            &[O, O, O, O, X, X, O, X, O],
+            &[O, O, Z, O, O, O, X, Z, O],
+        ]);
+        assert_eq!(tick_grid(&input), expected);
+    }
 }

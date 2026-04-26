@@ -4,6 +4,7 @@ use std::collections::HashMap;
 pub enum Cell {
     Alive,
     Dead,
+    Zombie,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -37,13 +38,14 @@ pub fn count_live_neighbors(grid: &Grid, position: &Position) -> i32 {
                 row: position.row + dr,
                 col: position.col + dc,
             };
-            cell_at(grid, &neighbor) == Some(Cell::Alive)
+            matches!(cell_at(grid, &neighbor), Some(Cell::Alive) | Some(Cell::Zombie))
         })
         .count() as i32
 }
 
 pub fn evolve_cell(cell: Cell, live_neighbors: i32) -> Cell {
     match (cell, live_neighbors) {
+        (Cell::Zombie, _) => Cell::Zombie,
         (Cell::Alive, 2) | (Cell::Alive, 3) => Cell::Alive,
         (Cell::Dead, 3) => Cell::Alive,
         _ => Cell::Dead,

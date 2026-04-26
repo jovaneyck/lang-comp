@@ -1,0 +1,2 @@
+tokens(fill with hardcoded zero);start_time;end_time;number_of_builds_test_runs_needed;description;
+32.100;2026-04-26 14:48:18.807;2026-04-26 14:49:52.417;3;Smooth run — added Zombie variant to Cell enum, updated neighbor counting and evolution logic. Two test expectations needed fixing due to miscounting zombie neighbors, otherwise straightforward.;
