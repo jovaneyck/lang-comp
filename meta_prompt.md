@@ -19,3 +19,4 @@ Run #experiments/game-of-life/prompt.md experiment in game-of-life\rustlang\atte
 
 Run #experiments/parrot/prompt.md experiment in parrot\csharp\attempts\opus46high\1
 Run #experiments/parrot/prompt.md experiment in parrot\elixir\attempts\opus46high\1
+Run #experiments/parrot/prompt.md experiment in parrot\fsharp\attempts\opus46high\1
