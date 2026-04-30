@@ -3,9 +3,9 @@
 Usage:
     python scripts/consolidate.py
 
-Scans experiments/{lang}/attempts/{model}/{n}/log.csv across all languages,
-prefixes each row with model, language, and attempt number,
-and writes results.csv to the repository root.
+Scans experiments/{problem}/{lang}/attempts/{model}/{n}/log.csv across all
+problems and languages, prefixes each row with problem, model, language, and
+attempt number, and writes results.csv to the repository root.
 """
 
 import csv
@@ -21,10 +21,11 @@ def find_log_files():
 
 
 def parse_path(log_path):
-    """Extract model, language, and attempt number from path like {lang}/attempts/{model}/{n}/log.csv"""
+    """Extract problem, model, language, and attempt number from path like {problem}/{lang}/attempts/{model}/{n}/log.csv"""
     parts = log_path.relative_to(EXPERIMENTS).parts
     attempts_idx = parts.index("attempts")
     return {
+        "problem": parts[0],
         "language": parts[attempts_idx - 1],
         "model": parts[attempts_idx + 1],
         "attempt": parts[attempts_idx + 2],
@@ -69,7 +70,7 @@ def main():
         for row in read_log(log_path):
             all_rows.append({**meta, **row})
 
-    output_columns = ["model", "language", "attempt"] + COLUMNS
+    output_columns = ["problem", "model", "language", "attempt"] + COLUMNS
 
     with open(OUTPUT, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=output_columns, delimiter=";", extrasaction="ignore")
