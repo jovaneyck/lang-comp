@@ -17,10 +17,4 @@ Run #experiments/game-of-life/prompt.md experiment in game-of-life\elixir\attemp
 
 Run #experiments/game-of-life/prompt.md experiment in game-of-life\rustlang\attempts\opus46high\1
 
-Run #experiments/parrot/oo-prompt.md experiment in parrot\csharp\attempts\opus46high\1
-Run #experiments/parrot/oo-prompt.md experiment in parrot\elixir\attempts\opus46high\1
-Run #experiments/parrot/fp-prompt.md experiment in parrot\fsharp\attempts\opus46high\1
-Run #experiments/parrot/oo-prompt.md experiment in parrot\js\attempts\opus46high\1
-Run #experiments/parrot/oo-prompt.md experiment in parrot\python\attempts\opus46high\1
-Run #experiments/parrot/fp-prompt.md experiment in parrot\rustlang\attempts\opus46high\1
-Run #experiments/parrot/oo-prompt.md experiment in parrot\ts\attempts\opus46high\1
+Run #experiments/gilded-rose/prompt.md experiment in gilded-rose\csharp\attempts\opus46high\1
