@@ -7,3 +7,7 @@ Main goal of the bench is to see how language affordances (e.g. static vs. dynam
 ## Source code attribution
 
 All source code used in this benchmark was adapted from the [exercism](https://github.com/exercism) project.
+
+## Main harness
+
+* These benchmarks use the Github copilot harness if not explicitly stated differently. Fresh context (system prompt, tool definitions etc): 15.200 tokens 
