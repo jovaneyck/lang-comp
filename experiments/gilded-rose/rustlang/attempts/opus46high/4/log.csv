@@ -1,0 +1,2 @@
+tokens(fill with hardcoded zero);start_time;end_time;number_of_builds_test_runs_needed;<single-sentence description of how the run went, highlighting any surprises or challenges>;
+33.100;2026-05-03 11:46:03.782;2026-05-03 11:47:12.712;2;Clean run - refactored to idiomatic match-based dispatch, implemented Conjured with double degradation, snapshot updated on first try with no surprises;

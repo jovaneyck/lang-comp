@@ -29,3 +29,44 @@ fn thirty_days() {
 
     insta::assert_snapshot!(output);
 }
+
+#[test]
+fn conjured_before_sell_date() {
+    let items = vec![Item::new("Conjured Mana Cake", 10, 20)];
+    let mut rose = GildedRose::new(items);
+    rose.update_quality();
+    assert_eq!(rose.items[0].sell_in, 9);
+    assert_eq!(rose.items[0].quality, 18);
+}
+
+#[test]
+fn conjured_on_sell_date() {
+    let items = vec![Item::new("Conjured Mana Cake", 0, 20)];
+    let mut rose = GildedRose::new(items);
+    rose.update_quality();
+    assert_eq!(rose.items[0].sell_in, -1);
+    assert_eq!(rose.items[0].quality, 16);
+}
+
+#[test]
+fn conjured_after_sell_date() {
+    let items = vec![Item::new("Conjured Mana Cake", -5, 10)];
+    let mut rose = GildedRose::new(items);
+    rose.update_quality();
+    assert_eq!(rose.items[0].sell_in, -6);
+    assert_eq!(rose.items[0].quality, 6);
+}
+
+#[test]
+fn conjured_quality_never_negative() {
+    let items = vec![
+        Item::new("Conjured Mana Cake", 5, 1),
+        Item::new("Conjured Mana Cake", 0, 1),
+        Item::new("Conjured Mana Cake", 0, 3),
+    ];
+    let mut rose = GildedRose::new(items);
+    rose.update_quality();
+    assert_eq!((rose.items[0].sell_in, rose.items[0].quality), (4, 0));
+    assert_eq!((rose.items[1].sell_in, rose.items[1].quality), (-1, 0));
+    assert_eq!((rose.items[2].sell_in, rose.items[2].quality), (-1, 0));
+}

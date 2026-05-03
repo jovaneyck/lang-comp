@@ -57,4 +57,38 @@ defmodule GildedRoseTest do
       """)
     end
   end
+
+  describe "Conjured items" do
+    test "before sell date degrades by 2" do
+      [item] = GildedRose.update_quality([%Item{name: "Conjured Mana Cake", sell_in: 10, quality: 20}])
+      assert item.sell_in == 9
+      assert item.quality == 18
+    end
+
+    test "on sell date degrades by 4" do
+      [item] = GildedRose.update_quality([%Item{name: "Conjured Mana Cake", sell_in: 0, quality: 20}])
+      assert item.sell_in == -1
+      assert item.quality == 16
+    end
+
+    test "after sell date degrades by 4" do
+      [item] = GildedRose.update_quality([%Item{name: "Conjured Mana Cake", sell_in: -5, quality: 10}])
+      assert item.sell_in == -6
+      assert item.quality == 6
+    end
+
+    test "quality never negative" do
+      [item] = GildedRose.update_quality([%Item{name: "Conjured Mana Cake", sell_in: 5, quality: 1}])
+      assert item.sell_in == 4
+      assert item.quality == 0
+
+      [item] = GildedRose.update_quality([%Item{name: "Conjured Mana Cake", sell_in: 0, quality: 1}])
+      assert item.sell_in == -1
+      assert item.quality == 0
+
+      [item] = GildedRose.update_quality([%Item{name: "Conjured Mana Cake", sell_in: 0, quality: 3}])
+      assert item.sell_in == -1
+      assert item.quality == 0
+    end
+  end
 end
