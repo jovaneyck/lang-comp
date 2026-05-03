@@ -2,6 +2,50 @@ import { describe, it, expect } from '@jest/globals';
 import { Item, GildedRose } from './gilded-rose';
 
 describe('Gilded Rose', () => {
+  describe('Conjured items', () => {
+    it('degrades quality by 2 before sell date', () => {
+      const item = new Item('Conjured Mana Cake', 10, 20);
+      new GildedRose([item]).updateQuality();
+      expect(item.sellIn).toBe(9);
+      expect(item.quality).toBe(18);
+    });
+
+    it('degrades quality by 4 on sell date', () => {
+      const item = new Item('Conjured Mana Cake', 0, 20);
+      new GildedRose([item]).updateQuality();
+      expect(item.sellIn).toBe(-1);
+      expect(item.quality).toBe(16);
+    });
+
+    it('degrades quality by 4 after sell date', () => {
+      const item = new Item('Conjured Mana Cake', -5, 10);
+      new GildedRose([item]).updateQuality();
+      expect(item.sellIn).toBe(-6);
+      expect(item.quality).toBe(6);
+    });
+
+    it('quality never goes negative', () => {
+      const item = new Item('Conjured Mana Cake', 5, 1);
+      new GildedRose([item]).updateQuality();
+      expect(item.sellIn).toBe(4);
+      expect(item.quality).toBe(0);
+    });
+
+    it('quality never goes negative after sell date', () => {
+      const item = new Item('Conjured Mana Cake', 0, 1);
+      new GildedRose([item]).updateQuality();
+      expect(item.sellIn).toBe(-1);
+      expect(item.quality).toBe(0);
+    });
+
+    it('quality never goes negative after sell date with quality 3', () => {
+      const item = new Item('Conjured Mana Cake', 0, 3);
+      new GildedRose([item]).updateQuality();
+      expect(item.sellIn).toBe(-1);
+      expect(item.quality).toBe(0);
+    });
+  });
+
   it('thirty days golden master', () => {
     const items = [
       new Item('+5 Dexterity Vest', 10, 20),
