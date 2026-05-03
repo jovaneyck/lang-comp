@@ -1,4 +1,6 @@
 from approvaltests import verify
+from approvaltests.reporters import PythonNativeReporter
+from approvaltests.core.options import Options
 
 from gilded_rose import GildedRose, Item
 
@@ -27,4 +29,4 @@ def test_thirty_days():
         lines.append("")
         app.update_quality()
 
-    verify("\n".join(lines) + "\n")
+    verify("\n".join(lines) + "\n", options=Options().with_reporter(PythonNativeReporter()))
