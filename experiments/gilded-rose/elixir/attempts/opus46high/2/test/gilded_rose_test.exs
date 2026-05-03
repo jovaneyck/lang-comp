@@ -31,6 +31,30 @@ defmodule GildedRoseTest do
         {acc <> day_output, updated}
       end)
 
-    assert String.replace(output, "\r\n", "\n") == expected
+    actual = String.replace(output, "\r\n", "\n")
+
+    if actual != expected do
+      {pos, exp_char, act_char} =
+        Enum.zip(String.to_charlist(expected), String.to_charlist(actual))
+        |> Enum.with_index()
+        |> Enum.find_value(fn {{e, a}, i} -> if e != a, do: {i, e, a} end)
+        |> case do
+          nil -> {min(byte_size(expected), byte_size(actual)), :eof, :eof}
+          found -> found
+        end
+
+      ctx = 20
+      exp_snippet = String.slice(expected, max(pos - ctx, 0), 2 * ctx + 1)
+      act_snippet = String.slice(actual, max(pos - ctx, 0), 2 * ctx + 1)
+
+      flunk("""
+      First difference at position #{pos}:
+        expected char: #{inspect(<<exp_char::utf8>>)}
+        actual char:   #{inspect(<<act_char::utf8>>)}
+
+        expected: ...#{inspect(exp_snippet)}...
+        actual:   ...#{inspect(act_snippet)}...
+      """)
+    end
   end
 end
