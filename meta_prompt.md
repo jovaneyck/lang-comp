@@ -19,4 +19,4 @@ Run #experiments/game-of-life/prompt.md experiment in game-of-life\rustlang\atte
 
 Run #experiments/gilded-rose/prompt.md experiment in gilded-rose\csharp\attempts\opus46high\5
 
-Run #experiments/game-of-life/prompt.md experiment in game-of-life\fsharp\attempts\ccopus47xhigh\2
+Run #experiments/game-of-life/prompt.md experiment in game-of-life\fsharp\attempts\gpt54high\1

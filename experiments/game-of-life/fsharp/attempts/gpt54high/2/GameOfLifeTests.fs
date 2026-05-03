@@ -7,6 +7,9 @@ open GameOfLife
 
 let O: Cell = Dead
 let X: Cell = Alive
+let Z: Cell = Zombie
+
+let cell row col (grid: Grid) : Cell option = cellAt grid { Row = row; Col = col }
 
 let grid (rows: Cell list list) : Grid =
     let height: int = List.length rows
@@ -136,5 +139,97 @@ let ``Bigger matrix`` () =
                [ X; X; O; X; O; O; O; X ]
                [ X; O; O; O; O; O; O; O ]
                [ O; O; O; O; O; O; X; X ] ]
+
+    tickGrid input |> should equal expected
+
+[<Fact>]
+let ``Zombie with zero live neighbors stays zombie`` () =
+    let input =
+        grid [ [ O; O; O ]
+               [ O; Z; O ]
+               [ O; O; O ] ]
+
+    tickGrid input
+    |> cell 1 1
+    |> should equal (Some Z)
+
+[<Fact>]
+let ``Zombie with three live neighbors stays zombie`` () =
+    let input =
+        grid [ [ X; X; O ]
+               [ O; Z; O ]
+               [ X; O; O ] ]
+
+    tickGrid input
+    |> cell 1 1
+    |> should equal (Some Z)
+
+[<Fact>]
+let ``Zombie with four live neighbors stays zombie`` () =
+    let input =
+        grid [ [ X; X; O ]
+               [ X; Z; O ]
+               [ X; O; O ] ]
+
+    tickGrid input
+    |> cell 1 1
+    |> should equal (Some Z)
+
+[<Fact>]
+let ``Dead cell with exactly three zombie neighbors becomes alive`` () =
+    let input =
+        grid [ [ Z; Z; O ]
+               [ Z; O; O ]
+               [ O; O; O ] ]
+
+    tickGrid input
+    |> cell 1 1
+    |> should equal (Some X)
+
+[<Fact>]
+let ``Live cell with exactly two zombie neighbors stays alive`` () =
+    let input =
+        grid [ [ Z; O; Z ]
+               [ O; X; O ]
+               [ O; O; O ] ]
+
+    tickGrid input
+    |> cell 1 1
+    |> should equal (Some X)
+
+[<Fact>]
+let ``Live cell surrounded by zombies dies`` () =
+    let input =
+        grid [ [ Z; Z; Z ]
+               [ Z; X; O ]
+               [ O; O; O ] ]
+
+    tickGrid input
+    |> cell 1 1
+    |> should equal (Some O)
+
+[<Fact>]
+let ``Mixed grid with zombies evolves correctly`` () =
+    let input =
+        grid [ [ O; O; X; O; O; O; Z; O; O ]
+               [ O; O; O; X; O; O; O; O; O ]
+               [ O; X; X; X; O; O; O; O; O ]
+               [ O; O; O; O; O; O; O; O; O ]
+               [ Z; O; O; O; O; O; O; O; Z ]
+               [ O; O; O; O; O; O; O; O; O ]
+               [ O; O; O; O; O; X; X; X; O ]
+               [ O; O; O; O; O; X; O; O; O ]
+               [ O; O; Z; O; O; X; O; Z; O ] ]
+
+    let expected =
+        grid [ [ O; O; O; O; O; O; Z; O; O ]
+               [ O; X; O; X; O; O; O; O; O ]
+               [ O; O; X; X; O; O; O; O; O ]
+               [ O; X; X; O; O; O; O; O; O ]
+               [ Z; O; O; O; O; O; O; O; Z ]
+               [ O; O; O; O; O; O; X; X; O ]
+               [ O; O; O; O; O; X; X; O; O ]
+               [ O; O; O; O; X; X; O; X; O ]
+               [ O; O; Z; O; O; O; X; Z; O ] ]
 
     tickGrid input |> should equal expected

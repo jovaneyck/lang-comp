@@ -1,0 +1,1 @@
+39.700;2026-05-03 12:30:31.504;2026-05-03 12:32:01.607;3;Added a Zombie cell state with persistent self-state and live-neighbor counting, and after fixing an initial test harness mistake the suite passed on the third test run.;

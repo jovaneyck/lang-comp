@@ -7,6 +7,7 @@ open GameOfLife
 
 let O: Cell = Dead
 let X: Cell = Alive
+let Z: Cell = Zombie
 
 let grid (rows: Cell list list) : Grid =
     let height: int = List.length rows
@@ -116,6 +117,82 @@ let ``Live cells with four or more neighbors die`` () =
     tickGrid input |> should equal expected
 
 [<Fact>]
+let ``Zombie cells stay zombie with zero live neighbors`` () =
+    let input = grid [ [ Z ] ]
+
+    tickGrid input |> should equal input
+
+[<Fact>]
+let ``Zombie cells stay zombie with three live neighbors`` () =
+    let input =
+        grid [ [ X; O; X ]
+               [ O; Z; O ]
+               [ X; O; O ] ]
+
+    let expected =
+        grid [ [ O; X; O ]
+               [ X; Z; O ]
+               [ O; O; O ] ]
+
+    tickGrid input |> should equal expected
+
+[<Fact>]
+let ``Zombie cells stay zombie with four or more live neighbors`` () =
+    let input =
+        grid [ [ X; O; X ]
+               [ O; Z; O ]
+               [ X; O; X ] ]
+
+    let expected =
+        grid [ [ O; X; O ]
+               [ X; Z; X ]
+               [ O; X; O ] ]
+
+    tickGrid input |> should equal expected
+
+[<Fact>]
+let ``Dead cell with exactly three zombie neighbors becomes alive`` () =
+    let input =
+        grid [ [ Z; Z; O ]
+               [ O; O; O ]
+               [ Z; O; O ] ]
+
+    let expected =
+        grid [ [ Z; Z; O ]
+               [ X; X; O ]
+               [ Z; O; O ] ]
+
+    tickGrid input |> should equal expected
+
+[<Fact>]
+let ``Live cell with exactly two zombie neighbors stays alive`` () =
+    let input =
+        grid [ [ Z; O; Z ]
+               [ O; X; O ]
+               [ O; O; O ] ]
+
+    let expected =
+        grid [ [ Z; X; Z ]
+               [ O; X; O ]
+               [ O; O; O ] ]
+
+    tickGrid input |> should equal expected
+
+[<Fact>]
+let ``Live cell with four or more zombie neighbors dies`` () =
+    let input =
+        grid [ [ Z; O; Z ]
+               [ O; X; O ]
+               [ Z; O; Z ] ]
+
+    let expected =
+        grid [ [ Z; X; Z ]
+               [ X; O; X ]
+               [ Z; X; Z ] ]
+
+    tickGrid input |> should equal expected
+
+[<Fact>]
 let ``Bigger matrix`` () =
     let input =
         grid [ [ X; X; O; X; X; O; O; O ]
@@ -136,5 +213,31 @@ let ``Bigger matrix`` () =
                [ X; X; O; X; O; O; O; X ]
                [ X; O; O; O; O; O; O; O ]
                [ O; O; O; O; O; O; X; X ] ]
+
+    tickGrid input |> should equal expected
+
+[<Fact>]
+let ``Mixed grid with zombies evolves correctly`` () =
+    let input =
+        grid [ [ O; O; X; O; O; O; Z; O; O ]
+               [ O; O; O; X; O; O; O; O; O ]
+               [ O; X; X; X; O; O; O; O; O ]
+               [ O; O; O; O; O; O; O; O; O ]
+               [ Z; O; O; O; O; O; O; O; Z ]
+               [ O; O; O; O; O; O; O; O; O ]
+               [ O; O; O; O; O; X; X; X; O ]
+               [ O; O; O; O; O; X; O; O; O ]
+               [ O; O; Z; O; O; X; O; Z; O ] ]
+
+    let expected =
+        grid [ [ O; O; O; O; O; O; Z; O; O ]
+               [ O; X; O; X; O; O; O; O; O ]
+               [ O; O; X; X; O; O; O; O; O ]
+               [ O; X; X; O; O; O; O; O; O ]
+               [ Z; O; O; O; O; O; O; O; Z ]
+               [ O; O; O; O; O; O; X; X; O ]
+               [ O; O; O; O; O; X; X; O; O ]
+               [ O; O; O; O; X; X; O; X; O ]
+               [ O; O; Z; O; O; O; X; Z; O ] ]
 
     tickGrid input |> should equal expected
