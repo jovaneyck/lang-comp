@@ -30,3 +30,45 @@ def test_thirty_days():
         app.update_quality()
 
     verify("\n".join(lines) + "\n", options=Options().with_reporter(PythonNativeReporter()))
+
+
+def test_conjured_before_sell_date():
+    item = Item("Conjured Mana Cake", 10, 20)
+    GildedRose([item]).update_quality()
+    assert item.sell_in == 9
+    assert item.quality == 18
+
+
+def test_conjured_on_sell_date():
+    item = Item("Conjured Mana Cake", 0, 20)
+    GildedRose([item]).update_quality()
+    assert item.sell_in == -1
+    assert item.quality == 16
+
+
+def test_conjured_after_sell_date():
+    item = Item("Conjured Mana Cake", -5, 10)
+    GildedRose([item]).update_quality()
+    assert item.sell_in == -6
+    assert item.quality == 6
+
+
+def test_conjured_quality_never_negative():
+    item = Item("Conjured Mana Cake", 5, 1)
+    GildedRose([item]).update_quality()
+    assert item.sell_in == 4
+    assert item.quality == 0
+
+
+def test_conjured_quality_never_negative_on_sell_date():
+    item = Item("Conjured Mana Cake", 0, 1)
+    GildedRose([item]).update_quality()
+    assert item.sell_in == -1
+    assert item.quality == 0
+
+
+def test_conjured_quality_never_negative_on_sell_date_quality_3():
+    item = Item("Conjured Mana Cake", 0, 3)
+    GildedRose([item]).update_quality()
+    assert item.sell_in == -1
+    assert item.quality == 0

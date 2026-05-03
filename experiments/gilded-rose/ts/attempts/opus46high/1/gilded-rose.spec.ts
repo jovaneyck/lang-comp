@@ -30,4 +30,48 @@ describe('Gilded Rose', () => {
 
     expect(lines.join('\n')).toMatchSnapshot();
   });
+
+  describe('Conjured items', () => {
+    it('degrades quality by 2 before sell date', () => {
+      const item = new Item('Conjured Mana Cake', 10, 20);
+      new GildedRose([item]).updateQuality();
+      expect(item.sellIn).toBe(9);
+      expect(item.quality).toBe(18);
+    });
+
+    it('degrades quality by 4 on sell date', () => {
+      const item = new Item('Conjured Mana Cake', 0, 20);
+      new GildedRose([item]).updateQuality();
+      expect(item.sellIn).toBe(-1);
+      expect(item.quality).toBe(16);
+    });
+
+    it('degrades quality by 4 after sell date', () => {
+      const item = new Item('Conjured Mana Cake', -5, 10);
+      new GildedRose([item]).updateQuality();
+      expect(item.sellIn).toBe(-6);
+      expect(item.quality).toBe(6);
+    });
+
+    it('quality never goes below zero', () => {
+      const item = new Item('Conjured Mana Cake', 5, 1);
+      new GildedRose([item]).updateQuality();
+      expect(item.sellIn).toBe(4);
+      expect(item.quality).toBe(0);
+    });
+
+    it('quality never goes below zero after sell date with low quality', () => {
+      const item = new Item('Conjured Mana Cake', 0, 1);
+      new GildedRose([item]).updateQuality();
+      expect(item.sellIn).toBe(-1);
+      expect(item.quality).toBe(0);
+    });
+
+    it('quality never goes below zero after sell date with quality 3', () => {
+      const item = new Item('Conjured Mana Cake', 0, 3);
+      new GildedRose([item]).updateQuality();
+      expect(item.sellIn).toBe(-1);
+      expect(item.quality).toBe(0);
+    });
+  });
 });

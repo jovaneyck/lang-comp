@@ -32,56 +32,39 @@ impl GildedRose {
     }
 
     pub fn update_quality(&mut self) {
-        for i in 0..self.items.len() {
-            if self.items[i].name != "Aged Brie"
-                && self.items[i].name != "Backstage passes to a TAFKAL80ETC concert"
-            {
-                if self.items[i].quality > 0 {
-                    if self.items[i].name != "Sulfuras, Hand of Ragnaros" {
-                        self.items[i].quality = self.items[i].quality - 1;
-                    }
-                }
-            } else {
-                if self.items[i].quality < 50 {
-                    self.items[i].quality = self.items[i].quality + 1;
+        for item in self.items.iter_mut() {
+            update_item(item);
+        }
+    }
+}
 
-                    if self.items[i].name == "Backstage passes to a TAFKAL80ETC concert" {
-                        if self.items[i].sell_in < 11 {
-                            if self.items[i].quality < 50 {
-                                self.items[i].quality = self.items[i].quality + 1;
-                            }
-                        }
-
-                        if self.items[i].sell_in < 6 {
-                            if self.items[i].quality < 50 {
-                                self.items[i].quality = self.items[i].quality + 1;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if self.items[i].name != "Sulfuras, Hand of Ragnaros" {
-                self.items[i].sell_in = self.items[i].sell_in - 1;
-            }
-
-            if self.items[i].sell_in < 0 {
-                if self.items[i].name != "Aged Brie" {
-                    if self.items[i].name != "Backstage passes to a TAFKAL80ETC concert" {
-                        if self.items[i].quality > 0 {
-                            if self.items[i].name != "Sulfuras, Hand of Ragnaros" {
-                                self.items[i].quality = self.items[i].quality - 1;
-                            }
-                        }
-                    } else {
-                        self.items[i].quality = self.items[i].quality - self.items[i].quality;
-                    }
-                } else {
-                    if self.items[i].quality < 50 {
-                        self.items[i].quality = self.items[i].quality + 1;
-                    }
-                }
-            }
+fn update_item(item: &mut Item) {
+    match item.name.as_str() {
+        "Sulfuras, Hand of Ragnaros" => {}
+        "Aged Brie" => {
+            item.sell_in -= 1;
+            let increase = if item.sell_in < 0 { 2 } else { 1 };
+            item.quality = (item.quality + increase).min(50);
+        }
+        "Backstage passes to a TAFKAL80ETC concert" => {
+            let increase = match item.sell_in {
+                ..=0 => -(item.quality),
+                1..=5 => 3,
+                6..=10 => 2,
+                _ => 1,
+            };
+            item.sell_in -= 1;
+            item.quality = (item.quality + increase).min(50).max(0);
+        }
+        name if name.starts_with("Conjured") => {
+            item.sell_in -= 1;
+            let degradation = if item.sell_in < 0 { 4 } else { 2 };
+            item.quality = (item.quality - degradation).max(0);
+        }
+        _ => {
+            item.sell_in -= 1;
+            let degradation = if item.sell_in < 0 { 2 } else { 1 };
+            item.quality = (item.quality - degradation).max(0);
         }
     }
 }
