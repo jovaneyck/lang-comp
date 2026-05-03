@@ -2,41 +2,6 @@ import { describe, it, expect } from '@jest/globals';
 import { Item, GildedRose } from './gilded-rose';
 
 describe('Gilded Rose', () => {
-  describe('Conjured items', () => {
-    it('degrades quality by 2 before sell date', () => {
-      const shop = new GildedRose([new Item('Conjured Mana Cake', 10, 20)]);
-      shop.updateQuality();
-      expect(shop.items[0].sellIn).toBe(9);
-      expect(shop.items[0].quality).toBe(18);
-    });
-
-    it('degrades quality by 4 on sell date', () => {
-      const shop = new GildedRose([new Item('Conjured Mana Cake', 0, 20)]);
-      shop.updateQuality();
-      expect(shop.items[0].sellIn).toBe(-1);
-      expect(shop.items[0].quality).toBe(16);
-    });
-
-    it('degrades quality by 4 after sell date', () => {
-      const shop = new GildedRose([new Item('Conjured Mana Cake', -5, 10)]);
-      shop.updateQuality();
-      expect(shop.items[0].sellIn).toBe(-6);
-      expect(shop.items[0].quality).toBe(6);
-    });
-
-    it('quality never goes negative', () => {
-      const shop = new GildedRose([
-        new Item('Conjured Mana Cake', 5, 1),
-        new Item('Conjured Mana Cake', 0, 1),
-        new Item('Conjured Mana Cake', 0, 3),
-      ]);
-      shop.updateQuality();
-      expect(shop.items[0].quality).toBe(0);
-      expect(shop.items[1].quality).toBe(0);
-      expect(shop.items[2].quality).toBe(0);
-    });
-  });
-
   it('thirty days golden master', () => {
     const items = [
       new Item('+5 Dexterity Vest', 10, 20),

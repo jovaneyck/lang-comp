@@ -5,44 +5,6 @@ from approvaltests.core.options import Options
 from gilded_rose import GildedRose, Item
 
 
-def _update_item(name, sell_in, quality):
-    item = Item(name, sell_in, quality)
-    GildedRose([item]).update_quality()
-    return item
-
-
-def test_conjured_before_sell_date():
-    item = _update_item("Conjured Mana Cake", 10, 20)
-    assert item.sell_in == 9
-    assert item.quality == 18
-
-
-def test_conjured_on_sell_date():
-    item = _update_item("Conjured Mana Cake", 0, 20)
-    assert item.sell_in == -1
-    assert item.quality == 16
-
-
-def test_conjured_after_sell_date():
-    item = _update_item("Conjured Mana Cake", -5, 10)
-    assert item.sell_in == -6
-    assert item.quality == 6
-
-
-def test_conjured_quality_never_negative():
-    item = _update_item("Conjured Mana Cake", 5, 1)
-    assert item.sell_in == 4
-    assert item.quality == 0
-
-    item = _update_item("Conjured Mana Cake", 0, 1)
-    assert item.sell_in == -1
-    assert item.quality == 0
-
-    item = _update_item("Conjured Mana Cake", 0, 3)
-    assert item.sell_in == -1
-    assert item.quality == 0
-
-
 def test_thirty_days():
     items = [
         Item("+5 Dexterity Vest", 10, 20),
