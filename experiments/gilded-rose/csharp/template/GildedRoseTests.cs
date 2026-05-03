@@ -1,10 +1,24 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using DiffEngine;
 using Xunit;
+using VerifyTests;
+using VerifyTests.DiffPlex;
 using VerifyXunit;
 
 namespace GildedRose;
+
+public static class Setup
+{
+    [ModuleInitializer]
+    public static void Init()
+    {
+        DiffRunner.Disabled = true;
+        VerifyDiffPlex.Initialize(OutputType.Compact);
+    }
+}
 
 public class ApprovalTest
 {
