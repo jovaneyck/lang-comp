@@ -14,8 +14,8 @@ tokens(fill with hardcoded zero);start_time;end_time;number_of_builds_test_runs_
 
 ## Task
 
-Refactor the existing Gilded Rose code to improve its design and maintainability. Keep it idiomatic to the programming language we are using.
-Then, implement the "Conjured" item feature as described below.
+You MUST refactor the existing Gilded Rose code to improve its design and maintainability. Keep the design idiomatic to the programming language we are using (inheritance and polymorphism vs. pattern matching and union types).
+Implement the "Conjured" item feature as described below.
 Do not alter the Item type — the goblin in the corner will insta-rage.
 
 ## New feature request
