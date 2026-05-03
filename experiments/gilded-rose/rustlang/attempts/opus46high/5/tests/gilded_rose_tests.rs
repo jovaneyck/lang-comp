@@ -1,5 +1,34 @@
 use gilded_rose::{GildedRose, Item};
 
+fn update_once(name: &str, sell_in: i32, quality: i32) -> (i32, i32) {
+    let items = vec![Item::new(name, sell_in, quality)];
+    let mut rose = GildedRose::new(items);
+    rose.update_quality();
+    (rose.items[0].sell_in, rose.items[0].quality)
+}
+
+#[test]
+fn conjured_before_sell_date() {
+    assert_eq!(update_once("Conjured Mana Cake", 10, 20), (9, 18));
+}
+
+#[test]
+fn conjured_on_sell_date() {
+    assert_eq!(update_once("Conjured Mana Cake", 0, 20), (-1, 16));
+}
+
+#[test]
+fn conjured_after_sell_date() {
+    assert_eq!(update_once("Conjured Mana Cake", -5, 10), (-6, 6));
+}
+
+#[test]
+fn conjured_quality_never_negative() {
+    assert_eq!(update_once("Conjured Mana Cake", 5, 1), (4, 0));
+    assert_eq!(update_once("Conjured Mana Cake", 0, 1), (-1, 0));
+    assert_eq!(update_once("Conjured Mana Cake", 0, 3), (-1, 0));
+}
+
 #[test]
 fn thirty_days() {
     let items = vec![
