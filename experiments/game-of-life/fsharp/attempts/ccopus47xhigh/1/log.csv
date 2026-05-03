@@ -1,0 +1,1 @@
+47.300;2026-05-03 12:09:31.515;2026-05-03 12:10:59.302;1;Added Zombie variant with self-preserving evolveCell case and live-counting fix; all 15 tests passed on first run with no surprises.;

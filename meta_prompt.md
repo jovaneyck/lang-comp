@@ -18,3 +18,5 @@ Run #experiments/game-of-life/prompt.md experiment in game-of-life\elixir\attemp
 Run #experiments/game-of-life/prompt.md experiment in game-of-life\rustlang\attempts\opus46high\1
 
 Run #experiments/gilded-rose/prompt.md experiment in gilded-rose\csharp\attempts\opus46high\5
+
+Run #experiments/game-of-life/prompt.md experiment in game-of-life\fsharp\attempts\ccopus47xhigh\2

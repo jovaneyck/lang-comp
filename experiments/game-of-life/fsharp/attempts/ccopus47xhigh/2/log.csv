@@ -1,0 +1,1 @@
+44.400;2026-05-03 12:16:41.316;2026-05-03 12:17:51.475;2;Smooth run — added Zombie variant, treated zombies as live for neighbor counts, made evolveCell short-circuit on Zombie; only iteration was the expected initial build failure before defining the Zombie constructor.;

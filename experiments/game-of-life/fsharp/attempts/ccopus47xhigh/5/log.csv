@@ -1,0 +1,1 @@
+43.400;2026-05-03 12:24:46.710;2026-05-03 12:26:02.500;2;Added Zombie variant to Cell, counted zombies as live in neighbor count, short-circuited evolveCell on Zombie; first iteration was compile error (Zombie undefined), second iteration green with all 15 tests passing including the 9x9 mixed grid acceptance test — no surprises.;

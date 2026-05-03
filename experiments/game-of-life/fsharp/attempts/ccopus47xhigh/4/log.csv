@@ -1,0 +1,1 @@
+55.900;2026-05-03 12:21:28.801;2026-05-03 12:23:12.904;3;Added Zombie variant, counted zombies as live, short-circuited evolveCell on Zombie; one failing test run because my "live cell with two zombie neighbors" expected ignored that flanking dead cells also see 3 live neighbors and become alive — fixed expected and went green.;
