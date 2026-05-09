@@ -2,7 +2,6 @@
 
 ![approach](./assets/lang-comp-approach.png)
 
-
 ## Description
 
 Lang-comp is a benchmark suite for comparing the performance of AI coding agent effectivenes working in different programming languages on a set of common programming tasks. The benchmark includes implementations of various algorithms and data structures, as well as a set of test cases to evaluate the performance of each implementation.
@@ -16,3 +15,7 @@ All source code used in this benchmark was adapted from the [exercism](https://g
 ## Main harness
 
 * These benchmarks use the Github copilot harness if not explicitly stated differently. Fresh context (system prompt, tool definitions etc): 15.200 tokens 
+
+## Benchmark results
+
+![results](./assets/results.png)
